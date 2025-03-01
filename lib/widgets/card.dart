@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:test5/consts/styles/style.dart';
 
 class CardWidget extends StatefulWidget {
   const CardWidget({super.key});
@@ -13,7 +14,6 @@ class _CardWidgetState extends State<CardWidget> {
     return Column(
       children: [
         Container(
-          // color: Colors.red,
           height: 81,
           width: 101,
           child: ClipRRect(
@@ -22,7 +22,7 @@ class _CardWidgetState extends State<CardWidget> {
             width: 100,height: 100, fit: BoxFit.cover,)
           ),
         ),
-        Text('Carl Mikson')
+        Text('Carl Mikson',style: recent_song_style)
       ],
     );
   }

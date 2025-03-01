@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
+import 'package:test5/consts/colors/color.dart';
 import 'package:test5/consts/strings/string.dart';
 import 'package:test5/consts/styles/style.dart';
 import 'package:test5/services/providers/songs_provider.dart';
 import 'package:test5/widgets/card.dart';
 import 'package:test5/widgets/list_card.dart';
 
-
-// apne pc pr github se login kr lena
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -17,13 +17,17 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
+
+  // initialize and fetch songs
   @override
   void initState() {
     super.initState();
     Future.microtask(() {
       final provider = Provider.of<SongsProvider>(context, listen: false);
-      if (!provider.isLoading) { // ✅ Fetch only if not already loading
-        provider.fetchSongs();
+
+      // Fetch only if not already loading, once fetched, don't fetch again
+      if (!provider.isLoading) {
+        provider.fetchLocalSongs();
       }
     });
   }
@@ -50,7 +54,6 @@ class _HomeState extends State<Home> {
               Column(
                 mainAxisSize: MainAxisSize.max,
                 mainAxisAlignment: MainAxisAlignment.start,
-                // crossAxisAlignment: CrossAxisAlignment.,
                 children: [
                   Container(
                       child: Text(
@@ -65,7 +68,7 @@ class _HomeState extends State<Home> {
                 ],
               ),
 
-              // Ghanta
+              // Notify Icon
               Icon(
                 Icons.notifications_none,
                 color: notify_icon_color,
@@ -74,7 +77,6 @@ class _HomeState extends State<Home> {
           ),
         ),
         body: SingleChildScrollView(
-          // ✅ Makes the entire screen scrollable
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -101,8 +103,10 @@ class _HomeState extends State<Home> {
                               SizedBox(width: 10), // Optional spacing
                               Expanded(
                                 child: TextField(
+                                  // remove borderline
                                   decoration: InputDecoration(
-                                    hintText: "Search Music Here",
+                                    hintStyle: search_music_style,
+                                    hintText: search_music,
                                   ),
                                 ),
                               ),
@@ -111,27 +115,30 @@ class _HomeState extends State<Home> {
                         ),
                       ],
                     ),
-                    Text(recently_played),
+                    Text(recently_played,style: recently_played_style,),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [CardWidget(), CardWidget(), CardWidget()],
                     ),
-                    Text(recommend_for_you),
+                    Text(recommend_for_you,style: recommended_style,),
                   ],
                 ),
               ),
 
-              /// ✅ Place ListView.builder **outside** the Column
+              /// ListView.builder to show songs
               songsProvider.isLoading
-                  ? Center(
-                      child: CircularProgressIndicator()) // Show loading state
+                  ? Center(child: CircularProgressIndicator())
                   : ListView.builder(
-                      shrinkWrap:
-                          true, // ✅ Makes ListView adapt to content height
-                      physics:
-                          NeverScrollableScrollPhysics(), // ✅ Prevents nested scrolling
+                      shrinkWrap: true, // Makes ListView adapt to content height
+                      physics: NeverScrollableScrollPhysics(),
                       itemCount: songsProvider.songs.length,
-                      itemBuilder: (context, i) => ListCard(songData: songsProvider.songs[i], index: i,)
+                      itemBuilder: (context, i) => ListCard(
+                        banner: songsProvider.songs[i].genre,
+                        songName: songsProvider.songs[i].title,
+                        singer: songsProvider.songs[i].artist,
+                        albumName: songsProvider.songs[i].album,
+                        index: i,
+                      )
                     ),
             ],
           ),

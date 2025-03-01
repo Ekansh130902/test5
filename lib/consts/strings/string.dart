@@ -14,7 +14,9 @@ String search_music = "Search Music";
 String recently_played = "Recently Played";
 String recommend_for_you = "Recommend for you";
 
-// Home
+/// Home
 String user_pic = "assets/user.jpeg";
+
+
 
 

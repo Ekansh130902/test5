@@ -39,24 +39,29 @@ class MusicScreen extends StatelessWidget {
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(18),
                 child: Image(
-                  image: NetworkImage(songsProvider.songs[musicProvider.currentIndex]['songBanner']),
-                  width: 300,
-                  height: 300,
+                  image: NetworkImage(songsProvider.songs[musicProvider.currentIndex].genre ?? ''),
+                  width: W*0.9,
+                  height: H*0.4,
                   fit: BoxFit.cover,
-                  errorBuilder: (context, error, stackTrace) => Icon(Icons.music_note, size: 150)
+                  errorBuilder: (context, error, stackTrace) => Icon(Icons.music_note, size: W*0.45)
                 ),
               ),
             ),
           ),
-          /// 🎵 Display Current Song Name
-          Text(
-            songsProvider.songs.isNotEmpty
-                ? songsProvider.songs[musicProvider.currentIndex]['songName'] ?? "Unknown Song"
-                : "No song selected",
-            style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+          SizedBox(height: 5,),
+          /// Display Current Song Name
+          Center(
+            child: Text(
+              songsProvider.songs.isNotEmpty
+                  ? songsProvider.songs[musicProvider.currentIndex].title ?? "Unknown Song"
+                  : "No song selected",
+              style: au_songname_style,
+            ),
           ),
 
-          /// 🔊 Progress Bar
+          SizedBox(height: 20,),
+
+          /// Progress Bar
           StreamBuilder<Duration>(
             stream: musicProvider.player.positionStream,
             builder: (context, snapshot) {
@@ -74,35 +79,7 @@ class MusicScreen extends StatelessWidget {
             },
           ),
 
-          /// 🎶 Playback Controls
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              IconButton(
-                icon: Icon(Icons.skip_previous),
-                onPressed: () => musicProvider.playPrevious(context),
-              ),
-              StreamBuilder<PlayerState>(
-                stream: musicProvider.player.playerStateStream,
-                builder: (context, snapshot) {
-                  final playing = snapshot.data?.playing ?? false;
-                  return IconButton(
-                    icon: Icon(playing ? Icons.pause : Icons.play_arrow),
-                    iconSize: 64,
-                    onPressed: () {
-                      playing ? musicProvider.player.pause() : musicProvider.player.play();
-                    },
-                  );
-                },
-              ),
-              IconButton(
-                icon: Icon(Icons.skip_next),
-                onPressed: () => musicProvider.playNext(),
-              ),
-            ],
-          ),
-
-          /// 🔄 Shuffle & Repeat Controls
+          /// Playback Controls
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -111,11 +88,33 @@ class MusicScreen extends StatelessWidget {
                 onPressed: musicProvider.toggleShuffle,
               ),
               IconButton(
-                icon: Icon(Icons.repeat, color: musicProvider.isRepeating ? Colors.blue : Colors.grey),
+                icon: Icon(Icons.skip_previous,size: W*0.1),
+                onPressed: () => musicProvider.playPrevious(context),
+              ),
+              StreamBuilder<PlayerState>(
+                stream: musicProvider.player.playerStateStream,
+                builder: (context, snapshot) {
+                  final playing = snapshot.data?.playing ?? false;
+                  return IconButton(
+                    icon: Icon(playing ? Icons.pause : Icons.play_arrow),
+                    iconSize: W*0.12,
+                    onPressed: () {
+                      playing ? musicProvider.player.pause() : musicProvider.player.play();
+                    },
+                  );
+                },
+              ),
+              IconButton(
+                icon: Icon(Icons.skip_next, size: W*0.1,),
+                onPressed: () => musicProvider.playNext(),
+              ),
+              IconButton(
+                icon: Icon(Icons.repeat, color: musicProvider.isRepeating ? Colors.blue : Colors.grey,),
                 onPressed: musicProvider.toggleRepeat,
               ),
             ],
           ),
+
         ],
       ),
     );

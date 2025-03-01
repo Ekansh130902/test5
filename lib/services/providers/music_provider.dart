@@ -21,6 +21,7 @@ class MusicProvider extends ChangeNotifier {
     _listenForSongCompletion();
   }
 
+  /// if current song ends, play next one
   void _listenForSongCompletion() {
     _player.playerStateStream.listen((state) {
       if (state.processingState == ProcessingState.completed) {
@@ -29,7 +30,7 @@ class MusicProvider extends ChangeNotifier {
     });
   }
 
-  // Play a song by index
+  /// Play a song by index
   Future<void> playSong(BuildContext context, int index) async {
     final songsProvider = Provider.of<SongsProvider>(context, listen: false);
     if (songsProvider.songs.isEmpty) return;
@@ -38,12 +39,13 @@ class MusicProvider extends ChangeNotifier {
     _updateRecentSongs(index);
 
     await _player.setAudioSource(
-      AudioSource.uri(Uri.parse(songsProvider.songs[index]['url'])),
+      AudioSource.uri(Uri.parse(songsProvider.songs[index].uri ?? '')),
     );
     _player.play();
     notifyListeners();
   }
 
+  /// update recent songs
   void _updateRecentSongs(int index) {
     // Remove if already exists
     _recentSongs.remove(index);
@@ -59,19 +61,7 @@ class MusicProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  // Play next song
-  // void playNext(BuildContext context) {
-  //   final songsProvider = Provider.of<SongsProvider>(context, listen: false);
-  //   if (songsProvider.songs.isEmpty) return;
-  //
-  //   if (_isShuffling) {
-  //     _currentIndex = (DateTime.now().millisecondsSinceEpoch % songsProvider.songs.length);
-  //   } else {
-  //     _currentIndex = (_currentIndex + 1) % songsProvider.songs.length;
-  //   }
-  //   playSong(context, _currentIndex);
-  // }
-
+  /// play next song
   void playNext() {
     final songsProvider = Provider.of<SongsProvider>(navigatorKey.currentContext!, listen: false);
     if (songsProvider.songs.isEmpty) return;
@@ -113,3 +103,17 @@ class MusicProvider extends ChangeNotifier {
     notifyListeners();
   }
 }
+
+
+// Play next song
+// void playNext(BuildContext context) {
+//   final songsProvider = Provider.of<SongsProvider>(context, listen: false);
+//   if (songsProvider.songs.isEmpty) return;
+//
+//   if (_isShuffling) {
+//     _currentIndex = (DateTime.now().millisecondsSinceEpoch % songsProvider.songs.length);
+//   } else {
+//     _currentIndex = (_currentIndex + 1) % songsProvider.songs.length;
+//   }
+//   playSong(context, _currentIndex);
+// }

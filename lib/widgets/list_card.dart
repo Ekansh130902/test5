@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:test5/consts/styles/style.dart';
 import 'package:test5/services/providers/music_provider.dart';
 
 class ListCard extends StatelessWidget {
-  final Map<String, dynamic> songData;
+  final String? banner;
+  final String? songName;
+  final String? singer;
+  final String? albumName;
   final index;
-
-  const ListCard({Key? key, required this.songData, required this.index}) : super(key: key);
+  const ListCard({Key? key, required this.index, this.banner, this.songName, this.singer, this.albumName}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +27,7 @@ class ListCard extends StatelessWidget {
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(8),
                 child: Image.network(
-                  songData['songBanner'],
+                  banner!,
                   width: 100,
                   height: 100,
                   fit: BoxFit.cover,
@@ -39,19 +42,19 @@ class ListCard extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    songData['songName'] ?? 'Unknown Song',
-                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                    songName ?? 'Unknown Song',
+                    style: list_card_songname_style,
                     overflow: TextOverflow.ellipsis,
                   ),
                   SizedBox(height: 4),
                   Text(
-                    songData['singer'] ?? 'Unknown Artist',
-                    style: TextStyle(fontSize: 14, color: Colors.grey[600]),
+                    singer ?? 'Unknown Artist',
+                    style: list_card_artist_style,
                   ),
                   SizedBox(height: 4),
                   Text(
-                    songData['albumname'] ?? 'Unknown Album',
-                    style: TextStyle(fontSize: 12, color: Colors.grey[500]),
+                    albumName ?? 'Unknown Album',
+                    style: list_card_playlist_style,
                   ),
                 ],
               ),

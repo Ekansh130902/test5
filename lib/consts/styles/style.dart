@@ -1,42 +1,51 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
+import 'package:test5/consts/colors/color.dart';
 
 double W = 0;
 double H = 0;
 
-// bottom Navigation Bar
-Color bottom_bar_bgcolor = Color(0xFF0A091E);
-
-// icon
-Color selected_icon_color = Color(0xFF6156E2);
-Color unselected_icon_color = Color(0xFF8E8E8E);
-double icon_size = 35;
-
+// bottom navigation bar
+double icon_size = 30;
 double bottom_bar_blur_radius = 20;
 double top_left = 40;
 double top_right = 40;
 
-
-// User
-TextStyle userNameStyle = TextStyle(fontWeight: FontWeight.w600, fontSize: 18,letterSpacing: 0.24, color: Color(0xFFF2F2F2));
-TextStyle goldMemberStyle = TextStyle(fontWeight: FontWeight.w400, fontSize: 14,letterSpacing: 0.24, color: Color(0xFFDEDEDE));
-
-Color notify_icon_color = Color(0xFF8E8E8E);
-
-
-// Home
-TextStyle listen_latest_style = TextStyle(fontWeight: FontWeight.w600,fontSize: 26, color: Color(0xFFF2F2F2));
-
-
-
-// Audio
-TextStyle title_style = TextStyle(fontSize: 24,fontWeight: FontWeight.w600);
-TextStyle songname_style = TextStyle(fontSize: 24, fontWeight: FontWeight.w400,color: Color(0xFFF2F2F2));
-TextStyle artistname_style = TextStyle(fontSize: 18, fontWeight: FontWeight.w400, color: Color(0xFF8E8E8E));
-
-
 // control buttons
 double ct_size = 30;
 
+FontWeight fw6 = FontWeight.w600;
+FontWeight fw4 = FontWeight.w400;
 
+// User
+TextStyle userNameStyle = TextStyle(fontWeight: fw6, fontSize: 18,letterSpacing: 0.24, color: F2);
+TextStyle goldMemberStyle = TextStyle(fontWeight: fw4, fontSize: 14,letterSpacing: 0.24, color: DE);
+
+
+/// Home Screen
+TextStyle listen_latest_style = TextStyle(fontWeight: fw6,fontSize: 26, color: F2);
+
+// search music
+TextStyle search_music_style = TextStyle(fontWeight: fw4,fontSize: 14,color: E8);
+
+// Recently played Section
+TextStyle recent_song_style = TextStyle(color: F2,fontWeight: fw4,fontSize: 14,);
+TextStyle recently_played_style = TextStyle(color: F2,fontWeight: fw6,fontSize: 22);
+
+// recommended for you
+TextStyle recommended_style = TextStyle(color: F2, fontSize: 18,fontWeight: fw6);
+
+/// Audio Screen
+
+// Audio
+TextStyle title_style = TextStyle(fontSize: 24,fontWeight: fw6);
+TextStyle songname_style = TextStyle(fontSize: 24, fontWeight: fw4,color: F2);
+TextStyle artistname_style = TextStyle(fontSize: 18, fontWeight: fw4, color: E8);
+TextStyle au_songname_style = TextStyle(fontSize: 20, fontWeight: FontWeight.bold);
+
+/// List Card
+
+TextStyle list_card_songname_style = TextStyle(fontSize: 16, fontWeight: fw4, color: F2);
+TextStyle list_card_artist_style = TextStyle(fontSize: 13, fontWeight: fw4,color: DE);
+TextStyle list_card_playlist_style = TextStyle(fontSize: 13, fontWeight: fw4,color: DE);
 
